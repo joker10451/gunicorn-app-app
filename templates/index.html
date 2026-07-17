@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Подбор займа — заявка онлайн</title>
   <meta name="description" content="Заявка на подбор предложений по займам и кредитам. Данные передаются партнёрам в соответствии с политикой обработки персональных данных." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
   {% if METRIKA_ID %}
   <script type="text/javascript">
@@ -26,26 +29,43 @@
   {% endif %}
 </head>
 <body>
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+  <div class="glow glow-3"></div>
+
   <header class="site-header">
     <div class="container header-inner">
-      <span class="brand">ЗаймПодбор</span>
+      <div class="brand">
+        <span class="brand-icon">◆</span>
+        <span>ЗаймПодбор</span>
+      </div>
       <nav class="site-nav">
-        <a href="#form">Заявка</a>
         <a href="#process">Как это работает</a>
-        <a href="/privacy">Политика данных</a>
+        <a href="#form" class="btn-nav">Оставить заявку</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="intro">
-      <div class="container">
-        <h1>Подбор предложений по займам</h1>
-        <p class="intro-lead">
-          Оставьте заявку — мы передадим её партнёрам, которые смогут предложить
-          вам условия по займу или кредиту. Никаких предоплат и визитов в офис.
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-badge">Подбор займов по всей России</div>
+        <h1>Займ на<br/><span class="gradient-text">ваших условиях</span></h1>
+        <p class="hero-sub">
+          Оставьте одну заявку — получите предложения от проверенных партнёров.
+          Без предоплат, без визитов в офис, решение за 5 минут.
         </p>
-        <a class="btn-primary" href="#form">Оставить заявку</a>
+        <a class="btn-glow" href="#form">
+          Начать
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-num">3 000+</span><span class="stat-label">партнёров</span></div>
+          <div class="stat-sep"></div>
+          <div class="stat"><span class="stat-num">15 мин</span><span class="stat-label">среднее время</span></div>
+          <div class="stat-sep"></div>
+          <div class="stat"><span class="stat-num">0 ₽</span><span class="stat-label">за подбор</span></div>
+        </div>
       </div>
     </section>
 
@@ -53,108 +73,152 @@
       <div class="container">
         <h2>Как это работает</h2>
         <div class="process-grid">
-          <article class="process-item">
-            <span class="process-num">01</span>
-            <h3>Заявка</h3>
-            <p>Вы заполняете форму с контактными данными и параметрами займа.</p>
-          </article>
-          <article class="process-item">
-            <span class="process-num">02</span>
-            <h3>Передача</h3>
-            <p>Заявка направляется партнёрам, которые принимают заявки по вашим критериям.</p>
-          </article>
-          <article class="process-item">
-            <span class="process-num">03</span>
-            <h3>Связь</h3>
-            <p>С вами связывается представитель одного или нескольких партнёров.</p>
-          </article>
+          <div class="process-card">
+            <div class="process-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke="currentColor" stroke-width="1.5"/><path d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12z" stroke="currentColor" stroke-width="1.5"/></svg>
+            </div>
+            <h3>Заполните заявку</h3>
+            <p>Укажите сумму, срок и контактные данные. Это займёт не больше двух минут.</p>
+          </div>
+          <div class="process-card">
+            <div class="process-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            </div>
+            <h3>Получите предложения</h3>
+            <p>Ваши данные поступают партнёрам. Несколько компаний готовы предложить условия.</p>
+          </div>
+          <div class="process-card">
+            <div class="process-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3>Выберите лучшее</h3>
+            <p>Сравните предложения и заключите сделку с тем, кто устроит больше всех.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="form" class="form-block">
-      <div class="container form-container">
-        <h2>Форма заявки</h2>
-        <form id="lead-form" method="post" action="/submit" novalidate>
-          <div class="form-row">
-            <label>Фамилия<input name="last_name" required autocomplete="family-name" /></label>
-            <label>Имя<input name="first_name" required autocomplete="given-name" /></label>
-            <label>Отчество<input name="patronymic" autocomplete="additional-name" /></label>
+    <section id="form" class="form-section">
+      <div class="container">
+        <div class="form-wrapper">
+          <div class="form-left">
+            <h2>Заявка на подбор</h2>
+            <p>Все поля обязательны для заполнения. Ваши данные защищены и передаются только партнёрам для обработки заявки.</p>
+            <div class="form-badges">
+              <span class="badge">152-ФЗ</span>
+              <span class="badge">SSL</span>
+              <span class="badge">Без оплаты</span>
+            </div>
           </div>
+          <div class="form-right">
+            <form id="lead-form" method="post" action="/submit" novalidate>
+              <div class="field-group">
+                <label>Фамилия *</label>
+                <input name="last_name" required autocomplete="family-name" placeholder="Иванов" />
+              </div>
+              <div class="field-group">
+                <label>Имя *</label>
+                <input name="first_name" required autocomplete="given-name" placeholder="Иван" />
+              </div>
+              <div class="field-group">
+                <label>Отчество</label>
+                <input name="patronymic" autocomplete="additional-name" placeholder="Иванович" />
+              </div>
+              <div class="field-row">
+                <div class="field-group">
+                  <label>Телефон *</label>
+                  <input name="phone" type="tel" required placeholder="+7 (___) ___-__-__" autocomplete="tel" />
+                </div>
+                <div class="field-group">
+                  <label>Эл. почта</label>
+                  <input name="email" type="email" autocomplete="email" placeholder="mail@example.com" />
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field-group">
+                  <label>Дата рождения</label>
+                  <input name="birth_date" type="date" />
+                </div>
+                <div class="field-group">
+                  <label>Пол</label>
+                  <select name="gender">
+                    <option value="">—</option>
+                    <option value="male">Мужской</option>
+                    <option value="female">Женский</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field-group">
+                  <label>Регион (код)</label>
+                  <input name="region" placeholder="78" />
+                </div>
+                <div class="field-group">
+                  <label>Город</label>
+                  <input name="city" autocomplete="address-level2" placeholder="Санкт-Петербург" />
+                </div>
+                <div class="field-group">
+                  <label>Город получения</label>
+                  <input name="loan_city" placeholder="Санкт-Петербург" />
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field-group">
+                  <label>Сумма, ₽</label>
+                  <input name="amount" type="number" min="1000" step="1000" placeholder="100 000" />
+                </div>
+                <div class="field-group">
+                  <label>Срок, дней</label>
+                  <input name="term" type="number" min="1" placeholder="65" />
+                </div>
+                <div class="field-group">
+                  <label>Цель займа</label>
+                  <select name="purpose">
+                    <option value="">—</option>
+                    <option value="Car">Автомобиль</option>
+                    <option value="Business">Бизнес</option>
+                    <option value="DebtConsolidation">Консолидация долга</option>
+                    <option value="HomeImprovement">Улучшение жилья</option>
+                    <option value="MedicalExpenses">Медицина</option>
+                    <option value="Education">Образование</option>
+                    <option value="Cash">Наличные</option>
+                    <option value="Other">Другое</option>
+                  </select>
+                </div>
+              </div>
 
-          <div class="form-row">
-            <label>Телефон<input name="phone" type="tel" required placeholder="+7 (___) ___-__-__" autocomplete="tel" /></label>
-            <label>Эл. почта<input name="email" type="email" autocomplete="email" /></label>
+              <label class="consent">
+                <input type="checkbox" name="pers_data_consent" required />
+                <span>Я даю <a href="/privacy" target="_blank">согласие на обработку персональных данных</a> в соответствии с ФЗ-152 и подтверждаю согласие на получение рекламных сообщений.</span>
+              </label>
+
+              <div class="hp" aria-hidden="true">
+                <label>Компания<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
+              </div>
+
+              <input type="hidden" name="subid1" id="subid1" />
+              <input type="hidden" name="subid2" id="subid2" />
+              <input type="hidden" name="subid3" id="subid3" />
+              <input type="hidden" name="subid4" id="subid4" />
+              <input type="hidden" name="subid5" id="subid5" />
+
+              <button type="submit" id="submit-btn">
+                Отправить заявку
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <p id="msg" class="msg" role="alert"></p>
+            </form>
           </div>
-
-          <div class="form-row">
-            <label>Дата рождения<input name="birth_date" type="date" /></label>
-            <label>Пол
-              <select name="gender">
-                <option value="">—</option>
-                <option value="male">Мужской</option>
-                <option value="female">Женский</option>
-              </select>
-            </label>
-          </div>
-
-          <div class="form-row">
-            <label>Регион (код)<input name="region" placeholder="78" /></label>
-            <label>Город<input name="city" autocomplete="address-level2" /></label>
-            <label>Город получения<input name="loan_city" /></label>
-          </div>
-
-          <div class="form-row">
-            <label>Сумма, ₽<input name="amount" type="number" min="1000" step="1000" placeholder="100000" /></label>
-            <label>Срок, дней<input name="term" type="number" min="1" placeholder="65" /></label>
-            <label>Цель займа
-              <select name="purpose">
-                <option value="">—</option>
-                <option value="Car">Автомобиль</option>
-                <option value="Business">Бизнес</option>
-                <option value="DebtConsolidation">Консолидация долга</option>
-                <option value="HomeImprovement">Улучшение жилья</option>
-                <option value="MedicalExpenses">Медицина</option>
-                <option value="Education">Образование</option>
-                <option value="Cash">Наличные</option>
-                <option value="Other">Другое</option>
-              </select>
-            </label>
-          </div>
-
-          <label class="consent">
-            <input type="checkbox" name="pers_data_consent" required />
-            <span>Я даю <a href="/privacy" target="_blank">согласие на обработку персональных данных</a>
-            в соответствии с Федеральным законом №&nbsp;152-ФЗ, подтверждаю достоверность
-            предоставленных сведений и согласие на получение сообщений рекламного характера
-            и запрос кредитной истории в БКИ.</span>
-          </label>
-
-          <div class="hp" aria-hidden="true">
-            <label>Компания<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
-          </div>
-
-          <input type="hidden" name="subid1" id="subid1" />
-          <input type="hidden" name="subid2" id="subid2" />
-          <input type="hidden" name="subid3" id="subid3" />
-          <input type="hidden" name="subid4" id="subid4" />
-          <input type="hidden" name="subid5" id="subid5" />
-
-          <button type="submit" id="submit-btn">Отправить заявку</button>
-          <p id="msg" class="msg" role="alert"></p>
-        </form>
-        <p class="form-note">
-          Сайт выступает посредником и не гарантирует одобрение заявки.
-          Отправляя форму, вы подтверждаете согласие на обработку данных.
-        </p>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <span>© 2026 ЗаймПодбор</span>
-      <a href="/privacy">Политика обработки персональных данных</a>
+      <span class="footer-brand"><span class="brand-icon">◆</span> ЗаймПодбор</span>
+      <span class="footer-copy">© 2026 Все права защищены</span>
+      <a href="/privacy">Политика обработки данных</a>
     </div>
   </footer>
 

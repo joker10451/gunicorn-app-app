@@ -4,44 +4,75 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Статус заявки</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
-  <main class="card">
-    <h1>Статус заявки</h1>
-    <p class="sub">UUID: <code>{{ uuid }}</code></p>
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <span class="brand-icon">◆</span>
+        <span>ЗаймПодбор</span>
+      </div>
+      <nav class="site-nav">
+        <a href="/">← Новая заявка</a>
+      </nav>
+    </div>
+  </header>
 
-    {% if result.error %}
-      <p class="msg err">Ошибка запроса: {{ result.error }}</p>
-    {% elif result.status != 200 %}
-      <p class="msg err">LeadGid вернул статус {{ result.status }}</p>
-    {% elif data %}
-      {% set convs = data.conversions or {} %}
-      {% if convs %}
-        <table class="status-table">
-          <thead><tr><th>Оффер</th><th>Статус</th><th>Lead ID</th></tr></thead>
-          <tbody>
-          {% for offer_id, c in convs.items() %}
-            <tr>
-              <td>{{ offer_id }}</td>
-              <td>
-                {% if c.status == 'accepted' %}<span class="ok">Принята</span>
-                {% elif c.status == 'rejected' %}<span class="err">Отклонена</span>
-                {% else %}{{ c.status }}{% endif %}
-              </td>
-              <td>{{ c.lead_id or '—' }}</td>
-            </tr>
-          {% endfor %}
-          </tbody>
-        </table>
-      {% else %}
-        <p class="msg">Заявка получена, ожидаем распределение по офферам…</p>
-      {% endif %}
-    {% else %}
-      <p class="msg err">Данные не получены.</p>
-    {% endif %}
+  <main style="position:relative;z-index:1;padding:140px 0 80px;">
+    <div class="container" style="max-width:700px;">
+      <div class="form-wrapper" style="grid-template-columns:1fr;padding:48px;">
+        <h2 style="font-size:24px;font-weight:700;letter-spacing:-0.02em;margin-bottom:8px;">Статус заявки</h2>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:28px;">UUID: <code style="background:var(--surface-2);padding:2px 8px;border-radius:4px;">{{ uuid }}</code></p>
 
-    <p style="margin-top:20px"><a href="/">← Новая заявка</a></p>
+        {% if result.error %}
+          <p class="msg err">Ошибка запроса: {{ result.error }}</p>
+        {% elif result.status != 200 %}
+          <p class="msg err">LeadGid вернул статус {{ result.status }}</p>
+        {% elif data %}
+          {% set convs = data.conversions or {} %}
+          {% if convs %}
+            <div style="overflow-x:auto;">
+              <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                <thead>
+                  <tr style="border-bottom:1px solid var(--border);">
+                    <th style="text-align:left;padding:12px 16px;color:var(--muted);font-weight:500;font-size:13px;">Оффер</th>
+                    <th style="text-align:left;padding:12px 16px;color:var(--muted);font-weight:500;font-size:13px;">Статус</th>
+                    <th style="text-align:left;padding:12px 16px;color:var(--muted);font-weight:500;font-size:13px;">Lead ID</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for offer_id, c in convs.items() %}
+                  <tr style="border-bottom:1px solid var(--border);">
+                    <td style="padding:14px 16px;font-weight:500;">{{ offer_id }}</td>
+                    <td style="padding:14px 16px;">
+                      {% if c.status == 'accepted' %}<span style="color:var(--ok);font-weight:500;">Принята</span>
+                      {% elif c.status == 'rejected' %}<span style="color:var(--err);font-weight:500;">Отклонена</span>
+                      {% else %}<span style="color:var(--muted);">{{ c.status }}</span>{% endif %}
+                    </td>
+                    <td style="padding:14px 16px;color:var(--muted);">{{ c.lead_id or '—' }}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% else %}
+            <p class="msg">Заявка получена, ожидаем распределение по офферам…</p>
+          {% endif %}
+        {% else %}
+          <p class="msg err">Данные не получены.</p>
+        {% endif %}
+
+        <div style="margin-top:32px;">
+          <a class="btn-glow" href="/" style="display:inline-flex;">← Новая заявка</a>
+        </div>
+      </div>
+    </div>
   </main>
 </body>
 </html>
