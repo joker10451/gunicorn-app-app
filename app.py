@@ -139,7 +139,20 @@ def submit():
 
     result = send_to_leadgid(payload)
     if result["ok"]:
-        return jsonify({"ok": True, "message": "Заявка принята"})
+        # Сохраняем UUID заявки для страницы статуса
+        uuid = (result.get("body") or {}).get("data", {}).get("id")
+        if uuid:
+            _recent_leads.insert(0, uuid)
+            del _recent_leads[50:]
+            status_url = f"{request.url_root.rstrip('/')}/status/{uuid}"
+        else:
+            status_url = None
+        return jsonify({
+            "ok": True,
+            "message": "Заявка принята",
+            "uuid": uuid,
+            "status_url": status_url,
+        })
     status = result.get("status")
     if status == 401:
         log.error("LeadGid 401 Unauthorized — проверьте токен")
@@ -173,6 +186,41 @@ def debug_env():
         "offer_raw": o,
         "offer_resolved": OFFER_ID,
     })
+
+
+def _leadgid_headers():
+    return {
+        "X-ACCOUNT-TOKEN": LEADGID_TOKEN,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+    }
+
+
+def get_application_status(uuid: str):
+    """Запрос статуса заявки по UUID из LeadGid."""
+    url = LEADGID_ENDPOINT.replace("/applications", f"/applications/status/{uuid}")
+    try:
+        resp = requests.get(url, headers=_leadgid_headers(), timeout=15)
+        return {"status": resp.status_code, "body": resp.json()}
+    except Exception as e:
+        return {"status": None, "error": str(e)}
+
+
+# Хранилище UUID последних заявок (для демо-страницы статуса).
+# В проде лучше БД; на Vercel ФС эфемерна, поэтому in-memory ограниченно.
+_recent_leads = []
+
+
+@app.route("/status/<uuid>", methods=["GET"])
+def status_page(uuid):
+    result = get_application_status(uuid)
+    data = result.get("body", {}).get("data") if result.get("body") else None
+    return render_template("status.html", uuid=uuid, result=result, data=data)
+
+
+@app.route("/api/status/<uuid>", methods=["GET"])
+def api_status(uuid):
+    return jsonify(get_application_status(uuid))
 
 
 @app.route("/test-submit", methods=["POST"])

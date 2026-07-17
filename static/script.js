@@ -43,7 +43,11 @@
       const resp = await fetch("/submit", { method: "POST", body: data });
       const json = await resp.json();
       if (json.ok) {
-        msg.textContent = "Заявка успешно отправлена. С вами свяжутся в ближайшее время.";
+        let text = "Заявка успешно отправлена. С вами свяжутся в ближайшее время.";
+        if (json.status_url) {
+          text += ' <a href="' + json.status_url + '" target="_blank">Проверить статус →</a>';
+        }
+        msg.innerHTML = text;
         msg.className = "msg ok";
         form.reset();
         // Цель в метрики

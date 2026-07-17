@@ -45,3 +45,7 @@ button:disabled { opacity: .6; cursor: default; }
 .msg.ok { color: #1a8a4a; }
 .msg.err { color: #c0392b; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.status-table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 14px; }
+.status-table th, .status-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #e3e8ef; }
+.status-table th { color: #61708a; font-weight: 600; }
+code { background: #f2f4f8; padding: 2px 6px; border-radius: 4px; font-size: 12px; word-break: break-all; }
