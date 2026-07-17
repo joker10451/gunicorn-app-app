@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Заявка на займ онлайн — быстро и безопасно</title>
-  <meta name="description" content="Оставьте заявку на займ или кредит онлайн. Подберём проверенные предложения среди надёжных партнёров." />
+  <title>Подбор займа — заявка онлайн</title>
+  <meta name="description" content="Заявка на подбор предложений по займам и кредитам. Данные передаются партнёрам в соответствии с политикой обработки персональных данных." />
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
   {% if METRIKA_ID %}
   <script type="text/javascript">
@@ -26,119 +26,135 @@
   {% endif %}
 </head>
 <body>
-  <header class="topbar">
-    <div class="wrap">
-      <div class="logo">💰 ФинПомощь</div>
-      <nav class="nav">
-        <a href="#form">Оставить заявку</a>
-        <a href="#how">Как это работает</a>
-        <a href="/privacy">Политика ПД</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <span class="brand">ЗаймПодбор</span>
+      <nav class="site-nav">
+        <a href="#form">Заявка</a>
+        <a href="#process">Как это работает</a>
+        <a href="/privacy">Политика данных</a>
       </nav>
     </div>
   </header>
 
-  <section class="hero">
-    <div class="wrap">
-      <h1>Займ онлайн за пару минут</h1>
-      <p class="lead">Заполните заявку — мы подберём для вас подходящее предложение среди проверенных партнёров. Без визита в офис, без залога.</p>
-      <div class="hero-badges">
-        <span>✅ Решение за 15 минут</span>
-        <span>✅ Без справок</span>
-        <span>✅ Данные защищены по 152-ФЗ</span>
+  <main>
+    <section class="intro">
+      <div class="container">
+        <h1>Подбор предложений по займам</h1>
+        <p class="intro-lead">
+          Оставьте заявку — мы передадим её партнёрам, которые смогут предложить
+          вам условия по займу или кредиту. Никаких предоплат и визитов в офис.
+        </p>
+        <a class="btn-primary" href="#form">Оставить заявку</a>
       </div>
-      <a class="cta-top" href="#form">Оставить заявку</a>
-    </div>
-  </section>
+    </section>
 
-  <section id="how" class="steps">
-    <div class="wrap">
-      <h2>Как это работает</h2>
-      <div class="step-grid">
-        <div class="step"><div class="num">1</div><h3>Заявка</h3><p>Заполните простую форму с контактными данными.</p></div>
-        <div class="step"><div class="num">2</div><h3>Подбор</h3><p>Система направит заявку партнёрам, готовым предложить условия.</p></div>
-        <div class="step"><div class="num">3</div><h3>Ответ</h3><p>С вами свяжется представитель в ближайшее время.</p></div>
+    <section id="process" class="process">
+      <div class="container">
+        <h2>Как это работает</h2>
+        <div class="process-grid">
+          <article class="process-item">
+            <span class="process-num">01</span>
+            <h3>Заявка</h3>
+            <p>Вы заполняете форму с контактными данными и параметрами займа.</p>
+          </article>
+          <article class="process-item">
+            <span class="process-num">02</span>
+            <h3>Передача</h3>
+            <p>Заявка направляется партнёрам, которые принимают заявки по вашим критериям.</p>
+          </article>
+          <article class="process-item">
+            <span class="process-num">03</span>
+            <h3>Связь</h3>
+            <p>С вами связывается представитель одного или нескольких партнёров.</p>
+          </article>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="form" class="form-section">
-    <div class="wrap">
-      <h2>Оставьте заявку</h2>
-      <form id="lead-form" method="post" action="/submit" novalidate>
-        <div class="row">
-          <label>Фамилия<input name="last_name" required autocomplete="family-name" /></label>
-          <label>Имя<input name="first_name" required autocomplete="given-name" /></label>
-          <label>Отчество<input name="patronymic" autocomplete="additional-name" /></label>
-        </div>
+    <section id="form" class="form-block">
+      <div class="container form-container">
+        <h2>Форма заявки</h2>
+        <form id="lead-form" method="post" action="/submit" novalidate>
+          <div class="form-row">
+            <label>Фамилия<input name="last_name" required autocomplete="family-name" /></label>
+            <label>Имя<input name="first_name" required autocomplete="given-name" /></label>
+            <label>Отчество<input name="patronymic" autocomplete="additional-name" /></label>
+          </div>
 
-        <div class="row">
-          <label>Телефон<input name="phone" type="tel" required placeholder="+7 (___) ___-__-__" autocomplete="tel" /></label>
-          <label>E-mail<input name="email" type="email" autocomplete="email" /></label>
-        </div>
+          <div class="form-row">
+            <label>Телефон<input name="phone" type="tel" required placeholder="+7 (___) ___-__-__" autocomplete="tel" /></label>
+            <label>Эл. почта<input name="email" type="email" autocomplete="email" /></label>
+          </div>
 
-        <div class="row">
-          <label>Дата рождения<input name="birth_date" type="date" /></label>
-          <label>Пол
-            <select name="gender">
-              <option value="">—</option>
-              <option value="male">Мужской</option>
-              <option value="female">Женский</option>
-            </select>
+          <div class="form-row">
+            <label>Дата рождения<input name="birth_date" type="date" /></label>
+            <label>Пол
+              <select name="gender">
+                <option value="">—</option>
+                <option value="male">Мужской</option>
+                <option value="female">Женский</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="form-row">
+            <label>Регион (код)<input name="region" placeholder="78" /></label>
+            <label>Город<input name="city" autocomplete="address-level2" /></label>
+            <label>Город получения<input name="loan_city" /></label>
+          </div>
+
+          <div class="form-row">
+            <label>Сумма, ₽<input name="amount" type="number" min="1000" step="1000" placeholder="100000" /></label>
+            <label>Срок, дней<input name="term" type="number" min="1" placeholder="65" /></label>
+            <label>Цель займа
+              <select name="purpose">
+                <option value="">—</option>
+                <option value="Car">Автомобиль</option>
+                <option value="Business">Бизнес</option>
+                <option value="DebtConsolidation">Консолидация долга</option>
+                <option value="HomeImprovement">Улучшение жилья</option>
+                <option value="MedicalExpenses">Медицина</option>
+                <option value="Education">Образование</option>
+                <option value="Cash">Наличные</option>
+                <option value="Other">Другое</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="consent">
+            <input type="checkbox" name="pers_data_consent" required />
+            <span>Я даю <a href="/privacy" target="_blank">согласие на обработку персональных данных</a>
+            в соответствии с Федеральным законом №&nbsp;152-ФЗ, подтверждаю достоверность
+            предоставленных сведений и согласие на получение сообщений рекламного характера
+            и запрос кредитной истории в БКИ.</span>
           </label>
-        </div>
 
-        <div class="row">
-          <label>Регион (код)<input name="region" placeholder="78" /></label>
-          <label>Город<input name="city" autocomplete="address-level2" /></label>
-          <label>Город получения<input name="loan_city" /></label>
-        </div>
+          <div class="hp" aria-hidden="true">
+            <label>Компания<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
+          </div>
 
-        <div class="row">
-          <label>Сумма (₽)<input name="amount" type="number" min="1000" step="1000" placeholder="100000" /></label>
-          <label>Срок (дней)<input name="term" type="number" min="1" placeholder="65" /></label>
-          <label>Цель
-            <select name="purpose">
-              <option value="">—</option>
-              <option value="Car">Автомобиль</option>
-              <option value="Business">Бизнес</option>
-              <option value="DebtConsolidation">Консолидация долга</option>
-              <option value="HomeImprovement">Улучшение дома</option>
-              <option value="MedicalExpenses">Медицина</option>
-              <option value="Education">Образование</option>
-              <option value="Cash">Наличные</option>
-              <option value="Other">Другое</option>
-            </select>
-          </label>
-        </div>
+          <input type="hidden" name="subid1" id="subid1" />
+          <input type="hidden" name="subid2" id="subid2" />
+          <input type="hidden" name="subid3" id="subid3" />
+          <input type="hidden" name="subid4" id="subid4" />
+          <input type="hidden" name="subid5" id="subid5" />
 
-        <label class="check">
-          <input type="checkbox" name="pers_data_consent" required />
-          <span>Я даю <a href="/privacy" target="_blank">согласие на обработку персональных данных</a>
-          в соответствии с Федеральным законом №&nbsp;152-ФЗ, подтверждаю достоверность предоставленных
-          сведений и согласие на получение сообщений рекламного характера и запрос кредитной истории в БКИ.</span>
-        </label>
+          <button type="submit" id="submit-btn">Отправить заявку</button>
+          <p id="msg" class="msg" role="alert"></p>
+        </form>
+        <p class="form-note">
+          Сайт выступает посредником и не гарантирует одобрение заявки.
+          Отправляя форму, вы подтверждаете согласие на обработку данных.
+        </p>
+      </div>
+    </section>
+  </main>
 
-        <div class="hp" aria-hidden="true">
-          <label>Company<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
-        </div>
-
-        <input type="hidden" name="subid1" id="subid1" />
-        <input type="hidden" name="subid2" id="subid2" />
-        <input type="hidden" name="subid3" id="subid3" />
-        <input type="hidden" name="subid4" id="subid4" />
-        <input type="hidden" name="subid5" id="subid5" />
-
-        <button type="submit" id="submit-btn">Отправить заявку</button>
-        <p id="msg" class="msg" role="alert"></p>
-      </form>
-      <p class="disclaimer">Нажимая кнопку, вы соглашаетесь с условиями обработки данных. Сайт является посредником и не гарантирует одобрение заявки.</p>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="wrap">
-      <p>© 2026 ФинПомощь. Все права защищены.</p>
-      <p><a href="/privacy">Политика обработки персональных данных</a></p>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© 2026 ЗаймПодбор</span>
+      <a href="/privacy">Политика обработки персональных данных</a>
     </div>
   </footer>
 
