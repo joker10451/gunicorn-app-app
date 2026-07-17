@@ -13,9 +13,17 @@
     utm_content: "subid4",
     utm_term: "subid5",
   };
+  let hasUtm = false;
   for (const [utm, field] of Object.entries(utmMap)) {
     const v = params.get(utm);
-    if (v) document.getElementById(field).value = v;
+    if (v) { document.getElementById(field).value = v; hasUtm = true; }
+  }
+  // Если UTM нет, но есть referrer — запишем источник в subid1
+  if (!hasUtm && document.referrer) {
+    try {
+      const ref = new URL(document.referrer);
+      document.getElementById("subid1").value = ref.hostname;
+    } catch (e) { /* ignore */ }
   }
 
   phone.addEventListener("input", function () {
