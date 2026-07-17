@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Заявка на финансовую помощь</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <main class="card">
+    <h1>Оставьте заявку</h1>
+    <p class="sub">Мы подберём для вас подходящее предложение среди проверенных партнёров.</p>
+
+    <form id="lead-form" method="post" action="/submit" novalidate>
+      <div class="row">
+        <label>Фамилия<input name="last_name" required autocomplete="family-name" /></label>
+        <label>Имя<input name="first_name" required autocomplete="given-name" /></label>
+        <label>Отчество<input name="patronymic" autocomplete="additional-name" /></label>
+      </div>
+
+      <div class="row">
+        <label>Телефон<input name="phone" type="tel" required placeholder="+7 (___) ___-__-__" autocomplete="tel" /></label>
+        <label>E-mail<input name="email" type="email" autocomplete="email" /></label>
+      </div>
+
+      <div class="row">
+        <label>Дата рождения<input name="birth_date" type="date" /></label>
+        <label>Пол
+          <select name="gender">
+            <option value="">—</option>
+            <option value="male">Мужской</option>
+            <option value="female">Женский</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="row">
+        <label>Регион (код)<input name="region" placeholder="78" /></label>
+        <label>Город<input name="city" autocomplete="address-level2" /></label>
+        <label>Город получения<input name="loan_city" /></label>
+      </div>
+
+      <div class="row">
+        <label>Сумма (₽)<input name="amount" type="number" min="1000" step="1000" /></label>
+        <label>Срок (дней)<input name="term" type="number" min="1" /></label>
+        <label>Цель
+          <select name="purpose">
+            <option value="">—</option>
+            <option value="Car">Автомобиль</option>
+            <option value="Business">Бизнес</option>
+            <option value="DebtConsolidation">Консолидация долга</option>
+            <option value="HomeImprovement">Улучшение дома</option>
+            <option value="MedicalExpenses">Медицина</option>
+            <option value="Education">Образование</option>
+            <option value="Cash">Наличные</option>
+            <option value="Other">Другое</option>
+          </select>
+        </label>
+      </div>
+
+      <label class="check">
+        <input type="checkbox" name="pers_data_consent" required />
+        <span>Я даю <a href="/privacy" target="_blank">согласие на обработку персональных данных</a>
+        в соответствии с Федеральным законом №&nbsp;152-ФЗ, подтверждаю достоверность предоставленных
+        сведений и согласие на получение сообщений рекламного характера и запрос кредитной истории в БКИ.</span>
+      </label>
+
+      <!-- honeypot: скрыто от пользователей, боты заполнят -->
+      <div class="hp" aria-hidden="true">
+        <label>Company<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
+      </div>
+
+      <button type="submit" id="submit-btn">Отправить заявку</button>
+      <p id="msg" class="msg" role="alert"></p>
+    </form>
+  </main>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
