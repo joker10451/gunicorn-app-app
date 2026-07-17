@@ -184,6 +184,12 @@ def test_submit():
         params["offer"] = OFFER_ID
     try:
         resp = requests.post(url, json=payload, headers=headers, params=params, timeout=15)
-        return jsonify({"status": resp.status_code, "body": resp.json()})
+        return jsonify({
+            "status": resp.status_code,
+            "token_len": len(LEADGID_TOKEN or ""),
+            "token_present": bool(LEADGID_TOKEN),
+            "offer_resolved": OFFER_ID,
+            "body": resp.json(),
+        })
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": str(e), "token_len": len(LEADGID_TOKEN or "")}), 500
