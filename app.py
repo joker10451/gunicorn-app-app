@@ -1,22 +1,13 @@
 from flask import Flask, render_template, request, jsonify
-from config import LEADGID_ENDPOINT, LEADGID_TOKEN, OFFER_ID, SECRET_HONEYPOT, LOG_FILE
+from config import LEADGID_ENDPOINT, LEADGID_TOKEN, OFFER_ID, SECRET_HONEYPOT
 import requests
 import logging
 from datetime import datetime, timezone, timedelta
 import re
-import json
 import os
 
 app = Flask(__name__)
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s %(levelname)s %(message)s",
-    handlers=[
-        logging.FileHandler(LOG_FILE, encoding="utf-8"),
-        logging.StreamHandler(),
-    ],
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("leadgid")
 
 PHONE_RE = re.compile(r"^\d{10,15}$")
@@ -134,7 +125,7 @@ def submit():
 
     payload = build_payload(request.form, ip, ua, origin)
 
-    # Не пишем ПД в лог — только метаданные
+    # Не пишем ПД в лог — только метаданные (на Vercel лог идёт в stdout)
     log.info("Lead from %s phone=%s offer=%s", ip, phone, OFFER_ID or "universal")
 
     result = send_to_leadgid(payload)
@@ -183,8 +174,3 @@ def test_submit():
         return jsonify({"status": resp.status_code, "body": resp.json()})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-
-if __name__ == "__main__":
-    os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
-    app.run(host="0.0.0.0", port=5000, debug=False)

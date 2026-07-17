@@ -6,47 +6,42 @@ LeadGid через API `https://api.leadgid.com/universal/v1/ru/applications`.
 ## Стек
 - Python 3 + Flask (бэкенд, прячет токен)
 - Статический фронтенд (HTML/CSS/JS)
-- Токен и настройки — в `.env` (не в коде)
+- Токен и настройки — в переменных окружения (`.env` локально / Vercel Dashboard)
 
-## Установка
+## Деплой на Vercel (бесплатно, без карты)
+1. Залейте репозиторий в GitHub
+2. https://vercel.com → New Project → Import репозитория
+3. Vercel автоматически определит Flask (ищет `app.py` с `app`)
+4. В разделе **Environment Variables** добавьте:
+   - `LEADGID_TOKEN` = ваш токен
+   - `LEADGID_OFFER_ID` = *(пусто — Универсальная заявка на все офферы)*
+5. Deploy → готово, получите `https://<project>.vercel.app`
+
+Локально:
 ```bash
-py -m venv venv
-venv\Scripts\activate
 pip install -r requirements.txt
+flask run
 ```
 
-## Конфигурация (.env)
-- `LEADGID_TOKEN` — ваш токен (уже заполнен)
-- `LEADGID_OFFER_ID` — оставьте пустым для отправки на ВСЕ подходящие офферы
-  (Универсальная заявка), либо укажите конкретный ID для фиксированной отправки
-
-## Запуск (локально)
-```bash
-flask run --port 5000
-# или
-py app.py
-```
-Откройте http://localhost:5000
+## Конфигурация
+- `LEADGID_TOKEN` — ваш токен (в `.env` локально, в Dashboard на Vercel)
+- `LEADGID_OFFER_ID` — пусто = все офферы, либо конкретный ID
 
 ## Тестирование (без реальных лидов)
-Отправка в `test-applications`:
-```bash
-curl -X POST http://localhost:5000/test-submit \
-  -H "Content-Type: application/json" \
-  -d '{"phone":"9119100002","first_name":"Иван","last_name":"Иванов","pers_data_consent":"on"}'
-```
+`POST /test-submit` шлёт в `/v1/ru/test-applications`.
 
 ## Проверка статуса заявки
-После успешной отправки LeadGid возвращает `id` (UUID). Статус:
+После отправки LeadGid возвращает `id` (UUID):
 - `GET /v1/ru/applications/status/{uuid}` — одна заявка
-- `POST /v1/ru/applications/status` с телом `{"uuid":[...]}` — пакетно
+- `POST /v1/ru/applications/status` с `{"uuid":[...]}` — пакетно
 
 ## Соответствие 152-ФЗ
 - Чекбокс согласия на обработку ПД обязателен (валидируется на сервере)
 - Политика ПД доступна по `/privacy`
-- В лог пишутся только метаданные (IP, phone без ПД, оффер) — не сами ПД
+- В лог пишутся только метаданные (IP, phone, оффер) — не сами ПД
 
 ## Защита
-- Токен только на сервере (не уходит в браузер)
+- Токен только на сервере
 - Honeypot-поле `company` против ботов
 - Серверная валидация телефона и имён
+
