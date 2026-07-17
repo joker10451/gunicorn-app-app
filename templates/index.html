@@ -5,6 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Заявка на финансовую помощь</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <!-- Яндекс.Метрика -->
+  {% if METRIKA_ID %}
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+    ym({{ METRIKA_ID }}, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/{{ METRIKA_ID }}" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  {% endif %}
+  <!-- Google Analytics -->
+  {% if GA_ID %}
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_ID }}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '{{ GA_ID }}');
+  </script>
+  {% endif %}
 </head>
 <body>
   <main class="card">
@@ -70,11 +90,21 @@
         <label>Company<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
       </div>
 
+      <!-- UTM-метки (автозаполняются из URL, передаются в LeadGid subid1-9) -->
+      <input type="hidden" name="subid1" id="subid1" />
+      <input type="hidden" name="subid2" id="subid2" />
+      <input type="hidden" name="subid3" id="subid3" />
+      <input type="hidden" name="subid4" id="subid4" />
+      <input type="hidden" name="subid5" id="subid5" />
+
       <button type="submit" id="submit-btn">Отправить заявку</button>
       <p id="msg" class="msg" role="alert"></p>
     </form>
   </main>
 
+  <script>
+    window.METRIKA_ID = {% if METRIKA_ID %}{{ METRIKA_ID }}{% else %}null{% endif %};
+  </script>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

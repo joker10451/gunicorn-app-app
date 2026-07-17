@@ -4,6 +4,20 @@
   const msg = document.getElementById("msg");
   const phone = form.querySelector('input[name="phone"]');
 
+  // === UTM-метки: заполняем скрытые поля из URL при загрузке ===
+  const params = new URLSearchParams(location.search);
+  const utmMap = {
+    utm_source: "subid1",
+    utm_medium: "subid2",
+    utm_campaign: "subid3",
+    utm_content: "subid4",
+    utm_term: "subid5",
+  };
+  for (const [utm, field] of Object.entries(utmMap)) {
+    const v = params.get(utm);
+    if (v) document.getElementById(field).value = v;
+  }
+
   phone.addEventListener("input", function () {
     let d = this.value.replace(/\D/g, "");
     if (d.startsWith("8")) d = "7" + d.slice(1);
@@ -32,6 +46,9 @@
         msg.textContent = "Заявка успешно отправлена. С вами свяжутся в ближайшее время.";
         msg.className = "msg ok";
         form.reset();
+        // Цель в метрики
+        if (typeof ym === "function") ym(window.METRIKA_ID || METRIKA_ID, "reachGoal", "lead_sent");
+        if (typeof gtag === "function") gtag("event", "lead_sent", { event_category: "conversion" });
       } else {
         const map = {
           no_consent: "Необходимо согласие на обработку персональных данных.",

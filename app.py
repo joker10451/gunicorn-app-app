@@ -1,5 +1,8 @@
 from flask import Flask, render_template, request, jsonify
-from config import LEADGID_ENDPOINT, LEADGID_TOKEN, OFFER_ID, SECRET_HONEYPOT
+from config import (
+    LEADGID_ENDPOINT, LEADGID_TOKEN, OFFER_ID, SECRET_HONEYPOT,
+    YANDEX_METRIKA_ID, GA_ID,
+)
 import requests
 import logging
 from datetime import datetime, timezone, timedelta
@@ -19,7 +22,9 @@ MOSCOW_TZ = timezone(timedelta(hours=3))
 FORM_FIELDS = [
     "first_name", "last_name", "patronymic", "phone", "email",
     "birth_date", "region", "city", "amount", "term", "purpose",
-    "gender", "loan_city", "subid1",
+    "gender", "loan_city",
+    "subid1", "subid2", "subid3", "subid4", "subid5",
+    "subid6", "subid7", "subid8", "subid9",
 ]
 
 
@@ -95,7 +100,11 @@ def send_to_leadgid(payload: dict):
 
 @app.route("/", methods=["GET"])
 def index():
-    return render_template("index.html")
+    return render_template(
+        "index.html",
+        METRIKA_ID=YANDEX_METRIKA_ID,
+        GA_ID=GA_ID,
+    )
 
 
 @app.route("/submit", methods=["POST"])

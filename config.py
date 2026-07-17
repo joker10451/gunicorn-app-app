@@ -34,5 +34,11 @@ OFFER_ID = "" if _raw_offer in ("", "none", "null", "0", "false") else _raw_offe
 # Имя скрытого honeypot-поля (защита от ботов)
 SECRET_HONEYPOT = "company"
 
+# === Аналитика (опционально) ===
+# Яндекс.Метрика и Google Analytics — задайте ID в переменных окружения,
+# иначе счётчики не подключатся.
+YANDEX_METRIKA_ID = os.environ.get("YANDEX_METRIKA_ID") or os.environ.get("yandex_metrika_id") or ""
+GA_ID = os.environ.get("GA_ID") or os.environ.get("ga_id") or ""
+
 # Лог заявок (без персональных данных)
 LOG_FILE = os.path.join(BASE_DIR, "logs", "leads.log")
