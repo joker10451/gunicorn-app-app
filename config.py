@@ -15,9 +15,12 @@ LEADGID_TOKEN = os.environ.get("LEADGID_TOKEN", "")
 # Базовый endpoint из документации
 LEADGID_ENDPOINT = "https://api.leadgid.com/universal/v1/ru/applications"
 
-# Оставьте пустым ("") для отправки на ВСЕ подходящие офферы (Универсальная заявка).
-# Либо укажите конкретный ID оффера для фиксированной отправки.
-OFFER_ID = os.environ.get("LEADGID_OFFER_ID", "")
+# Оставьте пустым ("") или значением none/null/0 для отправки на ВСЕ
+# подходящие офферы (Универсальная заявка). Либо укажите конкретный ID оффера
+# для фиксированной отправки. Значения-заглушки нужны, т.к. Vercel не даёт
+# сохранять по-настоящему пустую переменную окружения.
+_raw_offer = (os.environ.get("LEADGID_OFFER_ID", "") or "").strip().lower()
+OFFER_ID = "" if _raw_offer in ("", "none", "null", "0", "false") else _raw_offer
 
 # Имя скрытого honeypot-поля (защита от ботов)
 SECRET_HONEYPOT = "company"
