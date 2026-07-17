@@ -162,10 +162,13 @@ export function Hero() {
             </div>
 
             <Button
-              render={<a href="#offers" />}
+              render={<a href="#form" />}
               nativeButton={false}
               size="lg"
               className="mt-5 h-12 w-full rounded-xl text-base font-semibold"
+              onClick={() => {
+                window.dispatchEvent(new CustomEvent("prefill-form", { detail: { amount, term } }))
+              }}
             >
               Получить {formatRub(amount)} ₽
               <ArrowRight className="size-5" aria-hidden="true" />
