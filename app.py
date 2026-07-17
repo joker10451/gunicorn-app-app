@@ -197,13 +197,23 @@ def _leadgid_headers():
 
 
 def get_application_status(uuid: str):
-    """Запрос статуса заявки по UUID из LeadGid."""
-    url = LEADGID_ENDPOINT.replace("/applications", f"/applications/status/{uuid}")
-    try:
-        resp = requests.get(url, headers=_leadgid_headers(), timeout=15)
-        return {"status": resp.status_code, "body": resp.json()}
-    except Exception as e:
-        return {"status": None, "error": str(e)}
+    """Запрос статуса заявки по UUID из LeadGid.
+    Пробуем боевой путь, при 404 — тестовый (для заявок из /test-submit)."""
+    paths = [
+        f"/applications/status/{uuid}",
+        f"/test-applications/status/{uuid}",
+    ]
+    last = None
+    for p in paths:
+        url = LEADGID_ENDPOINT.replace("/applications", p)
+        try:
+            resp = requests.get(url, headers=_leadgid_headers(), timeout=15)
+            last = {"status": resp.status_code, "body": resp.json()}
+            if resp.status_code == 200:
+                return last
+        except Exception as e:
+            last = {"status": None, "error": str(e)}
+    return last
 
 
 # Хранилище UUID последних заявок (для демо-страницы статуса).
