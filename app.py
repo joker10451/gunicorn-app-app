@@ -153,6 +153,19 @@ def healthz():
     return jsonify({"ok": True})
 
 
+@app.route("/debug-env", methods=["GET"])
+def debug_env():
+    # Только длины/признаки — сам токен не раскрываем
+    t = LEADGID_TOKEN or ""
+    o = os.environ.get("LEADGID_OFFER_ID") or os.environ.get("leadgid_offer_id") or ""
+    return jsonify({
+        "token_len": len(t),
+        "token_present": bool(t),
+        "offer_raw": o,
+        "offer_resolved": OFFER_ID,
+    })
+
+
 @app.route("/test-submit", methods=["POST"])
 def test_submit():
     """Тестовая отправка в /v1/ru/test-applications (без реальных лидов)."""
